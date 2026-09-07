@@ -11,7 +11,8 @@ export function LayerDiagram({ target, progress }: { target: Target; progress: n
   const sideBySide = target.kind === "lumbar";
   const membrane = target.kind === "fascia";
   const bone = target.kind === "bone";
-  const boundary = membrane ? 164 : 207;
+  const superficial = target.kind === "superficial";
+  const boundary = superficial ? 130 : membrane ? 164 : 207;
   const labelUpper = target.upper.replace(/（.*）/, "");
   const labelLower = target.lower.replace(/（.*）/, "");
   const upperPath = membrane
@@ -54,14 +55,16 @@ export function LayerDiagram({ target, progress }: { target: Target; progress: n
       <Needle x={342} y={193} opacity={needle} />
       {glide > 0 && <path d="M147 287H247 M540 287H444" stroke="#176457" strokeWidth="3" markerEnd={`url(#${uid}-arrow)`} opacity={glide} />}
     </> : <>
+      {!superficial && <>
       <path d={upperPath} fill={membrane ? "#e6ebe4" : `url(#${uid}-muscle)`} stroke={membrane ? "#b7c8c2" : "#bb7566"} strokeWidth="2" />
       {!membrane && <path d={upperPath} fill={`url(#${uid}-fibers)`} />}
       {membrane && [134,140,147].map(y => <path key={y} d={`M66 ${y} Q207 ${y-8} 352 ${y+1} T642 ${y}`} fill="none" stroke="white" opacity=".9" />)}
       <Label x={450} y={membrane ? 142 : 166} text={labelUpper} sub={surfaceText} />
+      </>}
       <path d={lowerPath} fill={bone ? `url(#${uid}-bone)` : `url(#${uid}-muscle)`} stroke={bone ? "#a5a493" : "#bb7566"} strokeWidth={bone ? 4 : 2} />
       {!bone && <path d={lowerPath} fill={`url(#${uid}-fibers)`} />}
       <path d={`M66 ${boundary+6+separate} Q210 ${boundary-5+separate} 354 ${boundary+6+separate} T642 ${boundary+7+separate}`} fill="none" stroke="#f3f1e7" strokeWidth="7" />
-      <Label x={452} y={bone ? 291 : 284 + separate / 3} text={labelLower} sub={bone ? "骨の外側" : "深い側の筋肉"} />
+      <Label x={452} y={bone ? 291 : superficial ? 245 : 284 + separate / 3} text={labelLower} sub={bone ? "骨の外側" : superficial ? "表面側の筋膜へ注入" : "深い側の筋肉"} />
       {[120,195,285,370,460,555,607].map((x,i) => <path key={x} d={`M${x} ${boundary-8}l${i%2?13:-10} ${21+separate}`} stroke="#a87861" strokeWidth="3" opacity={(1-spread)*.8} />)}
       <path d={`M85 ${boundary} Q210 ${boundary-12} 354 ${boundary} T630 ${boundary+2} L630 ${boundary+6+separate} Q488 ${boundary+19+separate} 354 ${boundary+6+separate} T85 ${boundary+5+separate}Z`} fill={`url(#${uid}-fluid)`} opacity={spread * .88} transform={`translate(80,0) scale(${spread},1) translate(-80,0)`} />
       <path d={`M88 ${boundary+5+separate/2} Q267 ${boundary-7+separate/2} 445 ${boundary+6+separate/2}`} stroke="#2a9ebb" fill="none" strokeWidth="2" strokeDasharray="7 7" opacity={spread} />

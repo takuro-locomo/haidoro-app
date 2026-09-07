@@ -9,6 +9,7 @@ import { Slider } from "@/components/ui/slider";
 import { CLINIC_URL, LINE_URL, REGIONS, getRegion, getTarget, treatmentFrame, type RegionId } from "@/lib/hydro/data";
 import { AnatomyAtlas } from "./anatomy-atlas";
 import { GlideComparison, LayerDiagram } from "./layer-diagram";
+import { RegionIllustration } from "./region-illustration";
 
 const stages = [
   { value: 0, name: "注射前", phase: "before", title: "筋膜の滑りが悪い状態の例", description: "筋肉を包む膜どうしの動きが悪くなると、動いたときのつっぱりや痛みに関わることがあります。" },
@@ -69,9 +70,9 @@ export function HydroExplorer() {
       </section>
 
       <section id="explore" className="content-width explorer-section" aria-labelledby="symptom-title">
-        <div className="section-heading"><h2 id="symptom-title">気になるところは、どこですか？</h2><span>まずは部位を選択</span></div>
+        <div className="section-heading"><h2 id="symptom-title">気になるところは、どこですか？</h2><span>イラストを押して選択</span></div>
         <Tabs value={regionId} onValueChange={selectRegion} className="region-tabs">
-          <TabsList aria-label="気になる部位" className="symptom-tabs">{REGIONS.map((r, index) => <TabsTrigger key={r.id} value={r.id} className="symptom-tab"><span className="tab-number">0{index+1}</span><span><strong>{r.title}</strong><small>{r.symptom}</small></span></TabsTrigger>)}</TabsList>
+          <TabsList aria-label="気になる部位" className="symptom-tabs">{REGIONS.map(r => <TabsTrigger key={r.id} value={r.id} className="symptom-tab"><RegionIllustration region={r} /><span className="symptom-tab-copy"><strong>{r.title}</strong><small>{r.symptom}</small></span><span className="symptom-tab-action" aria-hidden="true">{r.id === regionId ? <><CircleCheck />選択中</> : <>この部位を見る<ArrowRight /></>}</span></TabsTrigger>)}</TabsList>
           <TabsContent value={regionId} className="region-content">
             <div className="selected-symptom"><div><span className="region-chip">{region.regionLabel}</span><h2>{region.symptom}</h2><p>{region.description}</p></div><p className="diagnosis-note"><Info size={17} aria-hidden="true" />症状だけで癒着や注射部位は決まりません。<br />以下は、診察で検討する層の説明例です。</p></div>
             {region.targets.length > 1 && <fieldset className="target-picker"><legend><Layers3 size={17} aria-hidden="true" />詳しく見たい層</legend><RadioGroup value={target.id} onValueChange={selectTarget} className="target-options" aria-label="詳しく見たい筋肉の層">{region.targets.map(t => <label key={t.id} htmlFor={`target-${t.id}`} className={target.id === t.id ? "selected" : ""}><RadioGroupItem id={`target-${t.id}`} value={t.id} />{t.name}</label>)}</RadioGroup></fieldset>}

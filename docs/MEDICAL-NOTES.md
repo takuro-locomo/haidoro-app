@@ -40,3 +40,10 @@ https://ueno-iin-biyou-miwa.com/hydrorelease/
 
 - CTAはLINE予約。医院ハイドロリリースページの専用リンク `https://lin.ee/zNl8pfQ` を確認して採用。一般ヘッダーの短縮URLも同じ公式アカウントに転送される。自動送信は行わない。
 - 大腿・下腿も1部位5,500円（税込）とする。上のHP掲載範囲に関する保留は、この直接指定により解消。肩＋腰8,800円の範囲を勝手に全組み合わせへ広げない。
+
+## 層の選択肢と入口の改善（2026-09-07）
+
+- 医院からの指定で、首・肩と肩甲骨まわりに「僧帽筋の表層（表面側）」を追加。アプリでは皮下組織と僧帽筋表面の筋膜の境目を示す。皮下組織内の superficial fascia と、筋表面を覆う deep fascia は同一ではないため、両者を混同した命名や効果の一般化を避ける。
+- 椎弓表面側の既存選択肢を「椎弓と多裂筋の間」と明示。図の注入液は多裂筋より深く、椎弓の外側に広がる。骨内・脊柱管内へは描かない。上記の多裂筋研究を、この層の標準治療の根拠として扱わない。
+- 参考：Shiwaku et al., 2025, Fascial Ultrasound-Guided Injection: Where Do We Really Inject? https://www.cureus.com/articles/338326-fascial-ultrasound-guided-injection-where-do-we-really-inject （筋膜の区分と対象層を区別するための参考。効果の保証ではない）。
+- 部位選択のイラストは、既存の出典表示付き解剖図を拡大・切り出して再利用。注入点を示す図としては使用しない。

@@ -1,6 +1,6 @@
 export type RegionId = "neck" | "scapula" | "lumbar" | "thigh" | "calf";
 export type ViewMode = "atlas" | "layers";
-export type TargetKind = "muscle" | "fascia" | "lumbar" | "bone";
+export type TargetKind = "muscle" | "fascia" | "lumbar" | "bone" | "superficial";
 export interface Target {
   id: string; name: string; upper: string; lower: string; kind: TargetKind;
   explanation: string; layers: string[];
@@ -14,6 +14,11 @@ export interface Region {
 }
 export const CLINIC_URL = "https://ueno-iin-biyou-miwa.com/hydrorelease/";
 export const LINE_URL = "https://lin.ee/zNl8pfQ";
+const TRAPEZIUS_SURFACE: Target = {
+  id: "trapezius-superficial", name: "僧帽筋の表層（表面側）", upper: "皮下組織", lower: "僧帽筋", kind: "superficial",
+  explanation: "僧帽筋の皮膚に近い側も、注入を検討する層のひとつです。この図では、皮下組織と僧帽筋の表面を覆う筋膜の境目を示しています。診察とエコーで、表面側・奥側のどこを対象にするか判断します。",
+  layers: ["皮膚", "皮下組織", "僧帽筋表面の筋膜の周囲（注入を検討）", "僧帽筋", "さらに奥に肩甲挙筋・菱形筋など（部位により異なる）"],
+};
 export const REGIONS: [Region, ...Region[]] = [
   {
     id: "neck", title: "首・肩", symptom: "首の痛み・肩の重さ", regionLabel: "頚部・肩上部",
@@ -21,7 +26,7 @@ export const REGIONS: [Region, ...Region[]] = [
     benefit: "首や肩を動かしたときのつっぱりが和らぎ、動かしやすくなることを目指します。",
     differential: "頚椎や神経、肩関節などが原因のこともあります。筋膜の動きが関係しているかを診察で確認します。",
     caution: "血管や神経などの位置をエコーで確認し、注射する層を判断します。",
-    targets: [{ id: "trapezius-levator", name: "僧帽筋と肩甲挙筋の間", upper: "僧帽筋", lower: "肩甲挙筋", kind: "muscle", explanation: "肩を覆う僧帽筋と、その下で肩甲骨を引き上げる肩甲挙筋。その境目の滑りが悪い場合、筋膜の間への注射を検討します。", layers: ["皮膚・皮下組織", "僧帽筋", "注射を検討する筋膜の間", "肩甲挙筋"] }],
+    targets: [{ id: "trapezius-levator", name: "僧帽筋と肩甲挙筋の間", upper: "僧帽筋", lower: "肩甲挙筋", kind: "muscle", explanation: "肩を覆う僧帽筋と、その下で肩甲骨を引き上げる肩甲挙筋。その境目の滑りが悪い場合、筋膜の間への注射を検討します。", layers: ["皮膚・皮下組織", "僧帽筋", "注射を検討する筋膜の間", "肩甲挙筋"] }, TRAPEZIUS_SURFACE],
     asset: "/anatomy/gray409-shoulder.png", imageSize: [733,1156], crop: "50 15 660 560", fullCrop: "0 0 733 1156", attribution: "Gray's Anatomy, 1918 · Public domain", source: "https://commons.wikimedia.org/wiki/File:Gray409.png",
   },
   {
@@ -33,6 +38,7 @@ export const REGIONS: [Region, ...Region[]] = [
     targets: [
       { id: "rhomboid-major", name: "僧帽筋と大菱形筋の間", upper: "僧帽筋", lower: "大菱形筋", kind: "muscle", explanation: "肩甲骨を背骨のほうへ引く大菱形筋は、僧帽筋の下にあります。筋膜の境目や周囲の動きを確認し、注射を検討します。", layers: ["皮膚・皮下組織", "僧帽筋", "注射を検討する筋膜の間", "大菱形筋", "肋骨・胸膜側（さらに深部）"] },
       { id: "rhomboid-minor", name: "小菱形筋の周囲", upper: "僧帽筋", lower: "小菱形筋", kind: "muscle", explanation: "小菱形筋は大菱形筋より上にあり、肩甲骨の内側上部を支えます。つっぱる場所と筋膜の動きを確かめ、周囲への注射を検討します。", layers: ["皮膚・皮下組織", "僧帽筋", "注射を検討する筋膜の間", "小菱形筋", "肋骨・胸膜側（さらに深部）"] },
+      TRAPEZIUS_SURFACE,
     ],
     asset: "/anatomy/gray409-shoulder.png", imageSize: [733,1156], crop: "240 130 470 560", fullCrop: "0 0 733 1156", attribution: "Gray's Anatomy, 1918 · Public domain", source: "https://commons.wikimedia.org/wiki/File:Gray409.png",
   },
@@ -45,7 +51,7 @@ export const REGIONS: [Region, ...Region[]] = [
     targets: [
       { id: "multifidus-longissimus", name: "多裂筋と最長筋の周囲", upper: "多裂筋（内側）", lower: "最長筋（外側）", kind: "lumbar", explanation: "背骨に近い多裂筋と、その外側の最長筋。横に並ぶ筋肉の境目や周囲の膜を確認し、滑りにくい部分への注射を検討します。", layers: ["皮膚・皮下組織", "胸腰筋膜", "多裂筋（内側）／最長筋（外側）", "筋肉の境目・周囲", "椎弓の表面側"] },
       { id: "thoracolumbar", name: "胸腰筋膜と筋肉の間", upper: "胸腰筋膜", lower: "多裂筋・最長筋", kind: "fascia", explanation: "腰の筋肉の表面を包む胸腰筋膜。その深側で、筋肉と膜の間の動きを確認します。", layers: ["皮膚・皮下組織", "胸腰筋膜", "注射を検討する膜の深側", "多裂筋・最長筋"] },
-      { id: "lamina", name: "多裂筋の深部・椎弓表面側", upper: "多裂筋", lower: "椎弓の表面側", kind: "bone", explanation: "多裂筋の深い付着部と、背骨の後ろ側にある椎弓の表面との位置関係です。診察で必要性を判断する、深い層の説明例です。", layers: ["皮膚・皮下組織", "胸腰筋膜", "多裂筋", "深い付着部の周辺", "椎弓（骨）の表面"] },
+      { id: "lamina", name: "椎弓と多裂筋の間", upper: "多裂筋", lower: "椎弓（骨）の表面", kind: "bone", explanation: "背骨の後ろ側にある骨の「椎弓」と、その上を覆う多裂筋の間です。多裂筋の深い付着部の周囲・椎弓の表面側への注入を、診察とエコー所見に応じて検討します。", layers: ["皮膚・皮下組織", "胸腰筋膜", "多裂筋", "椎弓と多裂筋の間（注入を検討）", "椎弓（骨）の表面"] },
     ],
     asset: "/anatomy/openstax-back.png", imageSize: [1620,1600], crop: "270 750 580 825", fullCrop: "0 0 1620 1600", attribution: "OpenStax · CC BY 3.0", source: "https://commons.wikimedia.org/wiki/File:1117_Muscles_of_the_Back.png",
   },

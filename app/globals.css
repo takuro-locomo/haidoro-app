@@ -287,3 +287,52 @@ p { line-height: 1.85; }
   .source-section { margin-top: 24px; font-size: 11px; }.source-section summary { font-size: 12px; }.site-footer { display: block; padding-block: 24px 30px; }.site-footer > a { display: inline-block; margin-top: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+/* Illustrated region choices: the primary entry point for patients. */
+.explorer-section > .section-heading h2 { font-size: clamp(1.125rem, 2.1vw, 1.5rem); font-weight: 700; }
+.symptom-tabs { gap: 14px; }
+.symptom-tabs .symptom-tab {
+  display: grid; grid-template-rows: 118px 1fr auto; align-content: stretch; align-items: stretch;
+  justify-content: stretch; gap: 13px; min-height: 245px; padding: 14px 14px 12px;
+  border: 2px solid #76a58f; border-radius: 14px; background: #fff; color: #174f44;
+  box-shadow: 0 5px 15px #174f440d; text-align: left; white-space: normal;
+}
+.symptom-tabs .symptom-tab:hover { border-color: #176457; background: #edf7f1; box-shadow: 0 6px 18px #174f4424; }
+.symptom-tabs .symptom-tab[data-state='active'] { background: #176457; color: white; border-color: #0d4a3e; box-shadow: 0 0 0 3px #b6d8c6, 0 6px 18px #174f4430; }
+.symptom-tabs .symptom-tab:focus-visible { outline: 4px solid #bb9547; outline-offset: 4px; }
+.region-illustration { display: block; width: 100%; height: 118px; overflow: hidden; background: #fff; border-radius: 8px; }
+.region-illustration svg { display: block; width: 100%; height: 100%; }
+.symptom-tabs .symptom-tab strong { display: block; font-size: 1.25rem; font-weight: 700; line-height: 1.5; }
+.symptom-tabs .symptom-tab small { display: block; font-size: .875rem; font-weight: 400; opacity: 1; line-height: 1.65; margin-top: 5px; color: #547764; }
+.symptom-tabs .symptom-tab[data-state='active'] small { color: #d3e9df; }
+.symptom-tab-action { display: flex; justify-content: space-between; align-items: center; gap: 6px; border-top: 1px solid #cddfd4; padding-top: 10px; font-size: .875rem; font-weight: 600; }
+.symptom-tab-action svg { width: 17px; height: 17px; flex-shrink: 0; }
+.symptom-tabs .symptom-tab[data-state='active'] .symptom-tab-action { border-color: #5b9180; justify-content: flex-start; }
+.target-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(205px, 1fr)); gap: 10px; }
+.target-options label { border-width: 2px; padding: 13px 14px; font-size: .875rem; line-height: 1.7; }
+.target-options label.selected { border-color: #176457; background: #e7f3eb; font-weight: 600; }
+.target-options label > button { flex-shrink: 0; }
+@media (max-width: 1100px) {
+  .symptom-tabs { gap: 10px; }
+  .symptom-tabs .symptom-tab { padding: 11px; grid-template-rows: 105px 1fr auto; }
+  .region-illustration { height: 105px; }
+  .symptom-tabs .symptom-tab strong { font-size: 1.125rem; }
+  .symptom-tab-action { font-size: .8125rem; }
+}
+@media (max-width: 800px) and (min-width: 601px) {
+  .symptom-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .symptom-tabs .symptom-tab { min-height: 224px; }
+}
+@media (max-width: 600px) {
+  .symptom-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .symptom-tabs .symptom-tab { min-height: 212px; grid-template-rows: 90px 1fr auto; padding: 11px; gap: 8px; border-radius: 12px; }
+  .region-illustration { height: 90px; }
+  .symptom-tabs .symptom-tab strong { font-size: 1.125rem; }
+  .symptom-tabs .symptom-tab small { font-size: .875rem; line-height: 1.5; margin-top: 3px; }
+  .symptom-tab-action { font-size: .875rem; padding-top: 8px; }
+  .symptom-tabs .symptom-tab:last-child { grid-column: 1 / -1; grid-template-columns: 100px 1fr; grid-template-rows: 1fr auto; min-height: 126px; column-gap: 16px; }
+  .symptom-tabs .symptom-tab:last-child .region-illustration { grid-row: 1 / 3; height: 112px; }
+  .symptom-tabs .symptom-tab:last-child .symptom-tab-copy { align-self: center; }
+  .target-options { grid-template-columns: 1fr; }
+  .target-options label { font-size: .875rem; padding: 12px; }
+}

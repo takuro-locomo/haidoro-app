@@ -23,7 +23,8 @@ const captions: Record<string, string> = {
 export function AnatomyAtlas({ region, target }: { region: Region; target: Target }) {
   const [full, setFull] = useState(false);
   const crop = full ? region.fullCrop : region.crop;
-  const radius = Number(crop.split(" ")[2]) / 32;
+  const [, , cropWidth, cropHeight] = crop.split(" ").map(Number);
+  const radius = Math.max(cropWidth / 32, cropHeight / 26);
   return <section className="anatomy-panel" aria-labelledby="anatomy-title">
     <div className="panel-heading"><div><span className="eyebrow">01 / 筋肉の位置</span><h3 id="anatomy-title">体のどこにある？</h3></div>
       <Button variant="outline" size="sm" onClick={() => setFull(!full)} aria-pressed={full}>{full ? <ScanLine /> : <Maximize2 />}{full ? "部位を拡大" : "図全体"}</Button></div>
