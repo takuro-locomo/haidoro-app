@@ -113,10 +113,9 @@ p { line-height: 1.85; }
 .skip-link:focus { top: 12px; }
 .site-header { background: #fff; border-bottom: 1px solid #dce7e1; }
 .header-inner { min-height: 82px; display: flex; align-items: center; gap: 30px; }
-.clinic-brand { display: flex; gap: 12px; align-items: center; text-decoration: none; }
-.brand-symbol { width: 44px; height: 44px; border: 1px solid #176457; display: grid; place-items: center; font-family: serif; font-size: 25px; border-radius: 50%; }
-.clinic-brand small { display: block; font-size: .875rem; letter-spacing: .1em; margin-bottom: 1px; }
-.clinic-brand strong { display: block; font-size: 21px; letter-spacing: .14em; line-height: 1.2; }
+.clinic-brand { display: flex; flex-direction: column; gap: 0; align-items: flex-start; flex-shrink: 0; text-decoration: none; padding-block: 5px; }
+.clinic-logo { display: block; width: 200px; height: auto; }
+.clinic-brand small { display: block; font-size: .8125rem; letter-spacing: .1em; margin-left: 25px; }
 .header-note { display: flex; align-items: center; gap: 8px; color: #60766c; font-size: .9375rem; border-left: 1px solid #dce7e1; padding-left: 26px; }
 .header-consult { margin-left: auto; display: flex; gap: 9px; align-items: center; font-size: 14px; font-weight: 700; padding: 11px 19px; border-radius: 7px; background: #e9f5eb; color: #175e30; }
 .header-consult:hover { background: #d8eddc; }
@@ -343,10 +342,8 @@ button, a { touch-action: manipulation; }
 @media (max-width: 600px) {
   .content-width, .header-inner { width: calc(100% - 32px); }
   .header-inner { min-height: 72px; gap: 10px; }
-  .brand-symbol { width: 35px; height: 35px; font-size: 21px; }
-  .clinic-brand { gap: 8px; }
-  .clinic-brand strong { font-size: 19px; }
-  .clinic-brand small { font-size: .8125rem; }
+  .clinic-logo { width: 160px; }
+  .clinic-brand small { margin-left: 20px; }
   .header-consult { min-height: 44px; padding: 10px; gap: 6px; font-size: .875rem; }
   .intro { padding-block: 24px; }
   .intro h1 { font-size: clamp(27px, 7.7vw, 34px); letter-spacing: 0; }
@@ -430,3 +427,9 @@ button, a { touch-action: manipulation; }
   .mobile-reselect { padding-inline: 0; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+.clinic-info-button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 48px; height: auto; max-width: 100%; padding: 12px 16px; margin-top: 18px; border: 1px solid #78a591; border-radius: 9px; background: #fff; color: #174f44; font-size: .9375rem; font-weight: 600; line-height: 1.6; white-space: normal; text-decoration: none; }
+.clinic-info-button:hover { background: #eaf4ee; border-color: #176457; }
+.clinic-info-button > span { flex-shrink: 0; }
+.fee-info-button { width: 100%; font-size: .875rem; padding-inline: 12px; }
+@media (max-width: 600px) { .intro > div { width: 100%; } .clinic-info-button { width: 100%; font-size: .875rem; } }

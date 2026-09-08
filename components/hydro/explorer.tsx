@@ -66,14 +66,14 @@ export function HydroExplorer() {
   return <>
     <a className="skip-link" href="#explore">症状の選択へ</a>
     <header className="site-header"><div className="header-inner">
-      <a href={CLINIC_URL} className="clinic-brand" target="_blank" rel="noreferrer"><span className="brand-symbol" aria-hidden="true">上</span><span><small>長野市 三輪</small><strong>上野医院</strong></span></a>
+      <a href={CLINIC_URL} className="clinic-brand" target="_blank" rel="noreferrer"><img className="clinic-logo" src="/ueno-clinic-logo.png" alt="上野医院 UENO CLINIC" width={250} height={82} /><small>長野市 三輪</small></a>
       <span className="header-note"><Stethoscope size={17} aria-hidden="true" />整形外科専門医による診療</span>
       <a href={LINE_URL} target="_blank" rel="noreferrer" className="header-consult"><MessageCircle size={17} aria-hidden="true" />LINEで予約</a>
     </div></header>
 
     <main>
       <section className="intro content-width">
-        <div><p className="intro-kicker"><span />筋肉の「間」に、アプローチ。</p><h1><span>整形外科専門医が打つ</span>ハイドロリリース</h1><p className="intro-copy">そのつっぱり、どの層から？<br className="mobile-break" /> 症状から、注射の仕組みを見てみましょう。</p></div>
+        <div><p className="intro-kicker"><span />筋肉の「間」に、アプローチ。</p><h1><span>整形外科専門医が打つ</span>ハイドロリリース</h1><p className="intro-copy">そのつっぱり、どの層から？<br className="mobile-break" /> 症状から、注射の仕組みを見てみましょう。</p><Button asChild variant="outline" className="clinic-info-button"><a href={CLINIC_URL} target="_blank" rel="noreferrer">医院のハイドロリリース案内を見る<span aria-hidden="true">↗</span></a></Button></div>
         <div className="intro-guide"><div><Stethoscope /><span>エコーで確認</span></div><ArrowRight /><div><Droplets /><span>筋膜の間に注入</span></div><ArrowRight /><div><Layers3 /><span>滑りの改善を目指す</span></div></div>
       </section>
 
@@ -105,7 +105,7 @@ export function HydroExplorer() {
             <div className="care-grid"><section className="care-card"><h3><Stethoscope size={21} aria-hidden="true" />まず、痛みの原因を見きわめます</h3><p>{region.differential}</p><p>診察とエコーで状態を確認し、注射が合うか、ほかの治療がよいかを相談します。</p></section><section className="care-card risk-card"><h3><Info size={21} aria-hidden="true" />副作用・リスクについて</h3><p>注射時の痛み、内出血、一時的な痛みの増加、気分不良など。まれに感染や神経・血管の損傷、部位によっては気胸のリスクがあります。</p><p>{region.caution}</p></section></div>
             <section id="consultation" className="consultation" aria-labelledby="consultation-title">
               <div className="consultation-main"><span className="eyebrow">上野医院でのハイドロリリース</span><h2 id="consultation-title">まずは、気になる痛みを<br />ご相談ください。</h2><p>整形外科専門医 上野琢郎が、エコーを用いて診療します。治療の適応や回数は、症状に合わせてご案内します。</p><div className="booking-note"><CircleCheck size={17} aria-hidden="true" />金曜・土曜／完全予約制</div><Button asChild size="lg" className="consult-button"><a href={LINE_URL} target="_blank" rel="noreferrer"><MessageCircle />LINEで予約する<ArrowRight /></a></Button><p className="line-hint">「ハイドロリリース希望」と、気になる部位をお伝えください。</p></div>
-              <div className="fee-card"><div className="fee-heading"><span>選択中：{region.title}</span><span>自由診療</span></div><p className="fee-label">ハイドロリリース 1部位</p><p className="fee-amount">5,500<small>円（税込）</small></p><p className="fee-details">診察・エコー・薬剤・手技料を含みます。<br />大腿・下腿も、1部位あたり同じ料金です。</p><div className="fee-secondary"><span>2部位（肩＋腰）</span><strong>8,800<small>円（税込）</small></strong></div><p className="small-note">1部位の範囲や複数部位の組み合わせは、予約・診察時にご確認ください。</p><a href={CLINIC_URL} target="_blank" rel="noreferrer" className="text-link">医院の詳しい案内を見る ↗</a></div>
+              <div className="fee-card"><div className="fee-heading"><span>選択中：{region.title}</span><span>自由診療</span></div><p className="fee-label">ハイドロリリース 1部位</p><p className="fee-amount">5,500<small>円（税込）</small></p><p className="fee-details">診察・エコー・薬剤・手技料を含みます。<br />大腿・下腿も、1部位あたり同じ料金です。</p><div className="fee-secondary"><span>2部位（肩＋腰）</span><strong>8,800<small>円（税込）</small></strong></div><p className="small-note">1部位の範囲や複数部位の組み合わせは、予約・診察時にご確認ください。</p><a href={CLINIC_URL} target="_blank" rel="noreferrer" className="clinic-info-button fee-info-button">医院のハイドロリリース案内を見る ↗</a></div>
             </section>
           </TabsContent>
         </Tabs>
