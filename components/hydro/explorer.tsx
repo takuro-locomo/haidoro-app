@@ -22,6 +22,8 @@ export function HydroExplorer() {
   const region = getRegion(regionId);
   const [targetId, setTargetId] = useState(region.targets[0].id);
   const target = getTarget(region, targetId);
+  const [view, setView] = useState<"anatomy" | "layers">("anatomy");
+  const resultRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [playing, setPlaying] = useState(false);
   const animation = useRef<number | null>(null);
@@ -35,8 +37,14 @@ export function HydroExplorer() {
   }
   function selectRegion(value: string) {
     stop(); const next = getRegion(value);
-    setRegionId(next.id); setTargetId(next.targets[0].id); setProgress(0);
+    setRegionId(next.id); setTargetId(next.targets[0].id); setProgress(0); setView("anatomy");
   }
+  function showResult() {
+    if (window.matchMedia("(max-width: 800px)").matches) {
+      requestAnimationFrame(() => resultRef.current?.scrollIntoView({ block: "start" }));
+    }
+  }
+  function changeView(next: "anatomy" | "layers") { stop(); setView(next); }
   function selectTarget(value: string) { stop(); setTargetId(value); setProgress(0); }
   function seek(value: number) { stop(); setProgress(value); }
   function play() {
@@ -72,16 +80,21 @@ export function HydroExplorer() {
       <section id="explore" className="content-width explorer-section" aria-labelledby="symptom-title">
         <div className="section-heading"><h2 id="symptom-title">気になるところは、どこですか？</h2><span>イラストを押して選択</span></div>
         <Tabs value={regionId} onValueChange={selectRegion} className="region-tabs">
-          <TabsList aria-label="気になる部位" className="symptom-tabs">{REGIONS.map(r => <TabsTrigger key={r.id} value={r.id} className="symptom-tab"><RegionIllustration region={r} /><span className="symptom-tab-copy"><strong>{r.title}</strong><small>{r.symptom}</small></span><span className="symptom-tab-action" aria-hidden="true">{r.id === regionId ? <><CircleCheck />選択中</> : <>この部位を見る<ArrowRight /></>}</span></TabsTrigger>)}</TabsList>
+          <TabsList aria-label="気になる部位" className="symptom-tabs">{REGIONS.map(r => <TabsTrigger key={r.id} value={r.id} className="symptom-tab" onClick={showResult}><RegionIllustration region={r} /><span className="symptom-tab-copy"><strong>{r.title}</strong><small>{r.symptom}</small></span><span className="symptom-tab-action" aria-hidden="true">{r.id === regionId ? <><CircleCheck />選択中</> : <>この部位を見る<ArrowRight /></>}</span></TabsTrigger>)}</TabsList>
           <TabsContent value={regionId} className="region-content">
-            <div className="selected-symptom"><div><span className="region-chip">{region.regionLabel}</span><h2>{region.symptom}</h2><p>{region.description}</p></div><p className="diagnosis-note"><Info size={17} aria-hidden="true" />症状だけで癒着や注射部位は決まりません。<br />以下は、診察で検討する層の説明例です。</p></div>
-            {region.targets.length > 1 && <fieldset className="target-picker"><legend><Layers3 size={17} aria-hidden="true" />詳しく見たい層</legend><RadioGroup value={target.id} onValueChange={selectTarget} className="target-options" aria-label="詳しく見たい筋肉の層">{region.targets.map(t => <label key={t.id} htmlFor={`target-${t.id}`} className={target.id === t.id ? "selected" : ""}><RadioGroupItem id={`target-${t.id}`} value={t.id} />{t.name}</label>)}</RadioGroup></fieldset>}
-            <div className="explorer-grid">
-              <AnatomyAtlas key={regionId} region={region} target={target} />
-              <section className="layer-panel" aria-labelledby="layer-title">
+            <div id="selected-region" ref={resultRef} className="selected-symptom"><div><div className="result-heading"><span className="region-chip">{region.regionLabel}</span><a href="#explore" className="reselect-link">部位を選び直す ↑</a></div><h2>{region.symptom}</h2><p>{region.description}</p></div><p className="diagnosis-note"><Info size={17} aria-hidden="true" />症状だけで癒着や注射部位は決まりません。<br />以下は、診察で検討する層の説明例です。</p></div>
+
+            <div className="mobile-view-switch" role="group" aria-label="図の表示切り替え">
+              <Button variant="ghost" aria-pressed={view === "anatomy"} aria-controls="anatomy-view" onClick={() => changeView("anatomy")}><span>1</span>筋肉の位置</Button>
+              <Button variant="ghost" aria-pressed={view === "layers"} aria-controls="layer-view" onClick={() => changeView("layers")}><span>2</span>注射の変化</Button>
+            </div>
+            <div className="explorer-grid" data-view={view}>
+              <div id="anatomy-view" className="anatomy-view"><AnatomyAtlas key={regionId} region={region} target={target} /><Button className="next-view-button" onClick={() => { changeView("layers"); showResult(); }}>次へ：注射の変化を見る<ArrowRight /></Button></div>
+              <section id="layer-view" className="layer-panel" aria-labelledby="layer-title">
                 <div className="panel-heading"><div><span className="eyebrow">02 / 注射する層と変化</span><h3 id="layer-title">筋肉の「間」を見てみる</h3></div><span className="diagram-tag">断面のイメージ</span></div>
+                {region.targets.length > 1 && <fieldset className="target-picker"><legend><Layers3 size={17} aria-hidden="true" />注射する層を選ぶ</legend><RadioGroup value={target.id} onValueChange={selectTarget} className="target-options" aria-label="詳しく見たい筋肉の層">{region.targets.map(t => <label key={t.id} htmlFor={`target-${t.id}`} className={target.id === t.id ? "selected" : ""}><RadioGroupItem id={`target-${t.id}`} value={t.id} />{t.name}</label>)}</RadioGroup></fieldset>}
                 <p className="layer-intro">{target.explanation}</p>
-                <div className={`diagram-surface phase-${frame.phase}`}><div className="diagram-legend"><span><i className="muscle-swatch" />筋肉</span><span><i className="fascia-swatch" />筋膜</span><span><i className="fluid-swatch" />注入液</span></div><LayerDiagram target={target} progress={progress} /><div className="plane-label"><Droplets size={17} aria-hidden="true" /><span>{progress === 0 ? "注射を検討する場所" : "液体が広がる場所"}：<strong>{target.name}</strong></span></div></div>
+                <div className={`diagram-surface phase-${frame.phase}`}><div className="diagram-legend"><span><i className="muscle-swatch" />筋肉</span><span><i className="fascia-swatch" />筋膜</span><span><i className="fluid-swatch" />注入液</span></div><LayerDiagram target={target} progress={progress} /><div className="tissue-key" aria-label="図に示した組織"><span>{target.kind === "lumbar" ? "背骨寄り" : "浅い側"}：<strong>{target.upper}</strong></span><span>{target.kind === "lumbar" ? "外側" : "深い側"}：<strong>{target.lower}</strong></span></div><div className="plane-label"><Droplets size={17} aria-hidden="true" /><span>{progress === 0 ? "注射を検討する場所" : "液体が広がる場所"}：<strong>{target.name}</strong></span></div></div>
                 <div className="animation-controls"><Button size="lg" className="play-button" onClick={play}>{playing ? <Pause /> : progress === 100 ? <RotateCcw /> : <Play />}{playing ? "一時停止" : progress === 100 ? "もう一度見る" : progress > 0 ? "続きを見る" : "注射の変化を見る"}</Button><div className="stage-controls" aria-label="表示する段階">{stages.map((s,i) => <Button key={s.phase} variant="ghost" onClick={() => seek(s.value)} aria-pressed={frame.phase === s.phase} className={frame.phase === s.phase ? "active-stage" : ""}><span>{i+1}</span>{s.name}</Button>)}</div></div>
                 <Slider value={[progress]} onValueChange={value => seek(value[0] ?? 0)} min={0} max={100} step={1} aria-label="注入のイメージを動かす" aria-valuetext={stage.name} className="treatment-slider" />
                 <div className="stage-explanation" aria-live="polite" aria-atomic="true"><strong>{stage.title}</strong><p>{stage.description}</p></div>
@@ -99,6 +112,7 @@ export function HydroExplorer() {
       </section>
       <section className="source-section content-width"><details><summary>このアプリの説明・出典について</summary><div><p>患者さんと医師が治療を相談するための教材です。症状の選択は診断ではありません。研究は部位や方法によって異なり、図に示したすべての層で同じ効果が実証されているわけではありません。</p><p>上部僧帽筋周囲への生理食塩水注入の比較試験、急性腰痛への多裂筋周辺の注入に関する観察研究などを参考にしています。大腿・下腿については、解剖学的な位置関係と診察時の検討例を示しています。</p><ul><li><a href={CLINIC_URL} target="_blank" rel="noreferrer">上野医院 ハイドロリリースの案内</a>（2026年9月7日確認）</li><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8211995/" target="_blank" rel="noreferrer">Tantanatip et al., 2021：上部僧帽筋周囲の比較試験</a></li><li><a href="https://pubmed.ncbi.nlm.nih.gov/32840876/" target="_blank" rel="noreferrer">Kanamoto et al., 2021：急性腰痛・多裂筋の観察研究</a></li><li><a href="/anatomy/ATTRIBUTION.md" target="_blank" rel="noreferrer">解剖図の出典・ライセンス一覧</a>（Gray&apos;s Anatomy / OpenStax、表示範囲の切り取り・番号を追加）</li></ul><p>急な片脚の腫れ・熱感、進行する手足の脱力、排尿・排便の異常、発熱を伴う強い痛みなどは、このアプリで判断せず速やかに医療機関へご相談ください。</p></div></details></section>
     </main>
+    <nav className="mobile-booking-bar" aria-label="スマートフォンのメニュー"><a href="#explore" className="mobile-reselect">部位を選ぶ ↑</a><a href={LINE_URL} target="_blank" rel="noreferrer" className="mobile-line"><MessageCircle aria-hidden="true" /><span>LINEで予約<small>1部位 5,500円（税込）</small></span></a></nav>
     <footer className="site-footer content-width"><div><strong>上野医院</strong><span>長野市 三輪｜整形外科専門医が打つハイドロリリース</span></div><a href={CLINIC_URL} target="_blank" rel="noreferrer">医院ホームページ ↗</a></footer>
   </>;
 }

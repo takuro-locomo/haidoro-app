@@ -77,8 +77,8 @@ export function LayerDiagram({ target, progress }: { target: Target; progress: n
 }
 
 function Label({ x, y, text, sub }: { x: number; y: number; text: string; sub: string }) {
-  const width = Math.max(100, text.length * 20 + 28);
-  return <g><rect x={x-width/2} y={y-21} width={width} height="47" rx="7" fill="white" fillOpacity=".88" /><text x={x} y={y} textAnchor="middle" fill="#3d4742" fontSize="20" fontWeight="700">{text}</text><text x={x} y={y+18} textAnchor="middle" fill="#67756e" fontSize="12">{sub}</text></g>;
+  const width = Math.max(100, text.length * 28 + 28);
+  return <g><rect x={x-width/2} y={y-27} width={width} height="55" rx="7" fill="white" fillOpacity=".88" /><text x={x} y={y} textAnchor="middle" fill="#3d4742" fontSize="28" fontWeight="700">{text}</text><text x={x} y={y+18} textAnchor="middle" fill="#67756e" fontSize="16">{sub}</text></g>;
 }
 function Needle({ x, y, opacity }: { x: number; y: number; opacity: number }) {
   if (opacity <= 0) return null;
