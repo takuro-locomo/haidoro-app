@@ -433,3 +433,21 @@ button, a { touch-action: manipulation; }
 .clinic-info-button > span { flex-shrink: 0; }
 .fee-info-button { width: 100%; font-size: .875rem; padding-inline: 12px; }
 @media (max-width: 600px) { .intro > div { width: 100%; } .clinic-info-button { width: 100%; font-size: .875rem; } }
+
+/* A clear invitation to play, then an easy route back to the symptom choices. */
+.play-callout { padding: 16px; border: 2px solid #d69366; border-radius: 13px; background: #fff5eb; }
+.play-instruction { display: flex; align-items: flex-start; justify-content: center; gap: 8px; margin-bottom: 12px; color: #853f26; font-size: .9375rem; line-height: 1.7; font-weight: 700; }
+.play-instruction svg { flex-shrink: 0; margin-top: 3px; }
+.play-button { height: auto; min-height: 62px; padding: 16px 12px; border: 1px solid #833c24; border-radius: 10px; background: #a94728; color: white; font-size: 1.125rem; font-weight: 700; letter-spacing: .02em; box-shadow: 0 4px 0 #79331c, 0 7px 16px #8c45262b; white-space: normal; }
+.play-button:hover { background: #8f3b20; }
+.play-button:active { transform: translateY(2px); box-shadow: 0 2px 0 #79331c; }
+.play-button svg { width: 23px; height: 23px; }
+.next-view-button { background: #a94728; color: white; border: 1px solid #833c24; box-shadow: 0 4px 0 #79331c; gap: 14px; }
+.next-view-button:hover { background: #8f3b20; }
+.next-view-button strong { display: block; font-size: 1.0625rem; }
+.next-view-button small { display: block; margin-top: 4px; font-size: .875rem; font-weight: 400; }
+.other-regions { padding: 24px 20px; margin-top: 20px; text-align: center; background: #eaf3ed; border: 1px solid #b9d2c4; border-radius: 13px; }
+.other-regions p { font-size: .9375rem; color: #3f6653; margin-bottom: 12px; }
+.other-regions-button { width: min(100%, 360px); min-height: 54px; height: auto; padding: 14px 18px; border: 2px solid #176457; background: white; color: #174f44; font-size: 1rem; font-weight: 700; gap: 14px; white-space: normal; }
+.other-regions-button:hover { background: #dcefe3; }
+@media (max-width: 600px) { .play-callout { padding: 13px 10px; } .play-instruction { font-size: .875rem; justify-content: flex-start; } .other-regions { padding: 22px 16px; } }
